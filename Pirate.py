@@ -34,6 +34,10 @@ class FileManager:
         json.dump(d, f)
         f.close()
 
+# Functions for the windows
+def addNew():
+    x=0
+
 root = Tk()
 
 # Configure the window
@@ -47,7 +51,7 @@ ship = Label(root, text = "Ship", font = "Arial 20", bg ="LightGreen")
 Fictional = Label(root, text = "Fictional", font = "Arial 20", bg ="LightGreen")
 nText = Entry(root, font = "Arial 15", bg ="LightGreen")
 nShip = Entry(root, font = "Arial 15", bg ="LightGreen")
-save = Button(root, font = "Arial 20", text = "Save", bg ="LightGreen")
+save = Button(root, font = "Arial 20", text = "Save", bg ="LightGreen", command = addNew)
 
 # The Grid
 title.grid(row = 0, column = 0, columnspan = 3)
@@ -60,8 +64,8 @@ save.grid(row = 4, column = 0, columnspan = 3)
 
 # The Dropdown menus 
 optionString = StringVar(root)
-optionString.set("True")
-dropdown = OptionMenu(root, optionString, "True", "False")
+optionString.set("")
+dropdown = OptionMenu(root, optionString, "True", "False", "Unknown")
 dropdown.config(font = "Arial 12", width = "10", bg = "LightGreen")
 dropdown.nametowidget(dropdown.menuname).config(font  = "Arial 12", bg = "LightGreen")
 dropdown.grid(row = 3, column = 1)
