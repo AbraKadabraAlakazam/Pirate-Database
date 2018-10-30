@@ -1,5 +1,6 @@
 import json
 from tkinter import *
+from random import randint
 class Pirate:
     name  = ""
     ship = ""
@@ -36,7 +37,20 @@ class FileManager:
 
 # Functions for the windows
 def addNew():
-    x=0
+    p = Pirate()
+    p.name = nText.get()
+    p.ship = nShip.get()
+    p.fictional = optionString.get()
+
+    nText.delete("end", 0)
+    nShip.delete("end", 0)
+    optionString.set("")
+    
+
+    d = p.getDict()
+    fm = FileManager()
+    idNum = randint(11111, 99999)
+    fm.writeToFile(idNum, d)
 
 root = Tk()
 
