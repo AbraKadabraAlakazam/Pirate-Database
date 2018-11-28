@@ -39,7 +39,32 @@ def onselect(e):
     for pirate in d:
         if piratename.lower() == d[pirate]["name"].lower():
             display(pirate)
-    
+
+def scrollRight():
+    index = int(listbox.curselection()[0])
+    listbox.selection_clear(index)
+    if index == len(d)-1:
+        index  = 0
+    else:
+        index += 1
+    updateListbox(index)
+
+def scrollLeft():
+    index = int(listbox.curselection()[0])
+    listbox.selection_clear(index)
+    if index == 0:
+        index  = len(d)-1
+    else:
+        index -= 1
+    updateListbox(index)
+
+def updateListbox(index):
+    listbox.selection_set(index)
+    piratename = listbox.get(index)
+    for pirate in d:
+        if piratename.lower() == d[pirate]["name"].lower():
+            display(pirate)
+            
 #The Frames
 frame1 = Frame(window1)
 frame1.config(bg="salmon")
@@ -69,8 +94,8 @@ leftImg = PhotoImage(file = "bloot.gif")
 rightImg = PhotoImage(file = "right.gif")
 rightImg = rightImg.subsample(2)
 leftImg = leftImg.subsample(2)
-leftBtn = Button(frame3, image = leftImg, bg = "olive")
-rightBtn = Button(frame3, image = rightImg, bg = "olive")
+leftBtn = Button(frame3, image = leftImg, bg = "olive", command = scrollLeft)
+rightBtn = Button(frame3, image = rightImg, bg = "olive", command = scrollRight)
 pirateName = Label(frame3, text = "Example Pirate", bg  = "salmon", font = ("Comic Sans MS", 30), fg = "white")
 leftBtn.grid(row = 1, column = 0, rowspan = 4)
 rightBtn.grid(row = 1, column = 2, rowspan = 4)
