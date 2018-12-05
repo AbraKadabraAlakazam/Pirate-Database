@@ -9,3 +9,6 @@ class FirebaseManager:
     def getAll(self):
         d = self.app.get("", None)
         return d
+
+    def DeletePirate(self, id):
+        self.app.delete(id, None)

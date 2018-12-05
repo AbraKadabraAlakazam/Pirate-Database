@@ -28,6 +28,7 @@ class FirebaseManager:
 
 # Functions for the windows
 def addNew():
+    global win, nText, nShip, optionString
     p = Pirate()
     p.name = nText.get()
     p.ship = nShip.get()
@@ -37,42 +38,49 @@ def addNew():
     nShip.delete("end", 0)
     optionString.set("")
     
-
     d = p.getDict()
     fm = FirebaseManager()
     idNum = randint(11111, 99999)
     fm.writeToFile(idNum, d)
 
-root = Tk()
+def Canc():
+    global win
+    win.destroy()
 
-# Configure the window
-root.title("Pirate Database")
-root.config(bg="LightBlue")
+def loadwindow(root):
+    global win, nText, nShip, optionString
+    win = root
+    
+    # Configure the window
+    root.title("Pirate Database")
+    root.config(bg="LightBlue")
 
-# The Objects
-title = Label(root, text = "Pirate Database", font = "Arial 25 bold", bg ="LightBlue")
-name = Label(root, text = "Name", font = "Arial 20", bg ="LightGreen")
-ship = Label(root, text = "Ship", font = "Arial 20", bg ="LightGreen")
-Fictional = Label(root, text = "Fictional", font = "Arial 20", bg ="LightGreen")
-nText = Entry(root, font = "Arial 15", bg ="LightGreen")
-nShip = Entry(root, font = "Arial 15", bg ="LightGreen")
-save = Button(root, font = "Arial 20", text = "Save", bg ="LightGreen", command = addNew)
+    # The Objects
+    title = Label(root, text = "Pirate Database", font = "Arial 25 bold", bg ="LightBlue")
+    name = Label(root, text = "Name", font = "Arial 20", bg ="LightGreen")
+    ship = Label(root, text = "Ship", font = "Arial 20", bg ="LightGreen")
+    Fictional = Label(root, text = "Fictional", font = "Arial 20", bg ="LightGreen")
+    nText = Entry(root, font = "Arial 15", bg ="LightGreen")
+    nShip = Entry(root, font = "Arial 15", bg ="LightGreen")
+    save = Button(root, font = "Arial 20", text = "Save", bg ="LightGreen", command = addNew)
+    cancel = Button(root, font = "Arial 20", text = "Cancel", bg ="LightGreen", command = Canc)
 
-# The Grid
-title.grid(row = 0, column = 0, columnspan = 3)
-name.grid(row = 1, column = 0)
-ship.grid(row = 2, column = 0)
-Fictional.grid(row = 3, column  = 0)
-nText.grid(row = 1, column = 1)
-nShip.grid(row = 2, column = 1)
-save.grid(row = 4, column = 0, columnspan = 3)
+    # The Grid
+    title.grid(row = 0, column = 0, columnspan = 3)
+    name.grid(row = 1, column = 0)
+    ship.grid(row = 2, column = 0)
+    Fictional.grid(row = 3, column  = 0)
+    nText.grid(row = 1, column = 1)
+    nShip.grid(row = 2, column = 1)
+    save.grid(row = 4, column = 0)
+    cancel.grid(row = 4, column = 1)
 
-# The Dropdown menus 
-optionString = StringVar(root)
-optionString.set("")
-dropdown = OptionMenu(root, optionString, "True", "False", "Unknown")
-dropdown.config(font = "Arial 12", width = "10", bg = "LightGreen")
-dropdown.nametowidget(dropdown.menuname).config(font  = "Arial 12", bg = "LightGreen")
-dropdown.grid(row = 3, column = 1)
+    # The Dropdown menus 
+    optionString = StringVar(root)
+    optionString.set("")
+    dropdown = OptionMenu(root, optionString, "True", "False", "Unknown")
+    dropdown.config(font = "Arial 12", width = "10", bg = "LightGreen")
+    dropdown.nametowidget(dropdown.menuname).config(font  = "Arial 12", bg = "LightGreen")
+    dropdown.grid(row = 3, column = 1)
 
-root.mainloop()        
+    root.mainloop()        

@@ -1,16 +1,34 @@
 #Imports
 from tkinter import *
 import FirebaseManager
+import Pirate
+
 
 #Main window
 window1 = Tk()
 window1.config(bg="salmon")
 
+#Popup new pirate window
+window2 = ""
+
 #Functions
 def listDelete():
+    index = int(listbox.curselection()[0])
+    listbox.selection_set(index)
+    piratename = listbox.get(index)
+    for pirate in d:
+        if piratename.lower() == d[pirate]["name"].lower():
+            #Save the ID because you can't delete while looping through a dictionary
+            deletekey = pirate
+    #Use the FirebaseManager to delete from the DataBase
+    fm.DeletePirate(deletekey)
+    #Also need to remove it from the dictionary
+    d.pop(deletekey)
+    #Update the listbox
     listbox.delete(ANCHOR)
+    #Or use doFilter()
+
 def ext():
-    
     window1.destroy()
     
 def doFilter():
@@ -64,7 +82,12 @@ def updateListbox(index):
     for pirate in d:
         if piratename.lower() == d[pirate]["name"].lower():
             display(pirate)
-            
+
+def new_pirate():
+    global window2
+    window2 = Toplevel()
+    Pirate.loadwindow(window2)
+        
 #The Frames
 frame1 = Frame(window1)
 frame1.config(bg="salmon")
@@ -97,16 +120,16 @@ leftImg = leftImg.subsample(2)
 leftBtn = Button(frame3, image = leftImg, bg = "olive", command = scrollLeft)
 rightBtn = Button(frame3, image = rightImg, bg = "olive", command = scrollRight)
 pirateName = Label(frame3, text = "Example Pirate", bg  = "salmon", font = ("Comic Sans MS", 30), fg = "white")
-leftBtn.grid(row = 1, column = 0, rowspan = 4)
-rightBtn.grid(row = 1, column = 2, rowspan = 4)
+leftBtn.grid(row = 0, column = 0, rowspan = 4)
+rightBtn.grid(row = 0, column = 2, rowspan = 4)
 pirateName.grid(row = 0, column = 1)
 fillerImg = PhotoImage(file = "knoi.gif")
 pirateLabel = Label(frame3, image = fillerImg, bg = "salmon")
 pirateLabel.grid(row = 1, column = 1)
 shipLabel = Label(frame3, text = "Ship: The Example Ship", bg = "salmon", fg = "white", font = cm)
 ficLabel = Label(frame3, text = "Fictional: True", bg = "salmon", fg = "white", font = cm)
-shipLabel.grid(row = 2, column = 1)
-ficLabel.grid(row = 3, column = 1)
+shipLabel.grid(row = 2, column = 0, columnspan = 3)
+ficLabel.grid(row = 3, column = 0, columnspan = 3)
 
 #Frame4 items
 label4 = Label(frame4, text = "View Pirate", font = cm, bg = "salmon", fg = "white")
@@ -121,6 +144,8 @@ for item in d:
     listbox.insert(END, pirate["name"])
 deleteButton = Button(frame4, text="Delete", font = cm, command=listDelete, bg = "Olive", fg="white")
 deleteButton.pack()
+newButton = Button(frame4, text = "New Pirate", font = cm, command = new_pirate, bg = "Olive", fg="white")
+newButton.pack()
 extButton = Button(frame4, text="Exit", font = cm, command=ext, bg = "Olive", fg="white")
 extButton.pack()
     
