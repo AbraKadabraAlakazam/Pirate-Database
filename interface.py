@@ -3,7 +3,6 @@ from tkinter import *
 import FirebaseManager
 import Pirate
 
-
 #Main window
 window1 = Tk()
 window1.config(bg="salmon")
@@ -52,11 +51,14 @@ def display(pirateId):
 
 def onselect(e):
     w = e.widget
-    index  = int(w.curselection()[0])
-    piratename = w.get(index)
-    for pirate in d:
-        if piratename.lower() == d[pirate]["name"].lower():
-            display(pirate)
+    try:
+        index  = int(w.curselection()[0])
+        piratename = w.get(index)
+        for pirate in d:
+            if piratename.lower() == d[pirate]["name"].lower():
+                display(pirate)
+    except:
+        pass
 
 def scrollRight():
     index = int(listbox.curselection()[0])
@@ -87,6 +89,22 @@ def new_pirate():
     global window2
     window2 = Toplevel()
     Pirate.loadwindow(window2)
+
+def fillListBox():
+    for item in d:
+        pirate = d[item]
+        listbox.insert(END, pirate["name"])
+    #Set the in intial selection
+    updateListbox(0)
+
+def refresh_list():
+    global d
+    #Refresh dictionary form Firebase
+    d = fm.getAll()
+    #Clear out the listbox
+    listbox.delete(0, "end")
+    #Refill the listbox
+    fillListBox()
         
 #The Frames
 frame1 = Frame(window1)
@@ -139,15 +157,15 @@ listbox.bind("<<ListboxSelect>>", onselect)
 listbox.pack()
 fm = FirebaseManager.FirebaseManager()
 d = fm.getAll()
-for item in d:
-    pirate = d[item]
-    listbox.insert(END, pirate["name"])
+fillListBox()
 deleteButton = Button(frame4, text="Delete", font = cm, command=listDelete, bg = "Olive", fg="white")
 deleteButton.pack()
 newButton = Button(frame4, text = "New Pirate", font = cm, command = new_pirate, bg = "Olive", fg="white")
 newButton.pack()
 extButton = Button(frame4, text="Exit", font = cm, command=ext, bg = "Olive", fg="white")
 extButton.pack()
+refreshButton = Button(frame4, text="Refresh", font = cm, command = refresh_list, bg = "Olive", fg="white")
+refreshButton.pack()
     
 #The Frames
 frame1.grid(row = 0, column = 0)

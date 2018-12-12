@@ -43,6 +43,8 @@ def addNew():
     idNum = randint(11111, 99999)
     fm.writeToFile(idNum, d)
 
+    win.destroy()
+
 def Canc():
     global win
     win.destroy()
@@ -77,8 +79,8 @@ def loadwindow(root):
 
     # The Dropdown menus 
     optionString = StringVar(root)
-    optionString.set("")
-    dropdown = OptionMenu(root, optionString, "True", "False", "Unknown")
+    optionString.set("True")
+    dropdown = OptionMenu(root, optionString, "True", "False")
     dropdown.config(font = "Arial 12", width = "10", bg = "LightGreen")
     dropdown.nametowidget(dropdown.menuname).config(font  = "Arial 12", bg = "LightGreen")
     dropdown.grid(row = 3, column = 1)
