@@ -6,12 +6,14 @@ class Pirate:
     name  = ""
     ship = ""
     fic = False
+    image = ""
     
     def getDict(self):
         d = {
             "name": self.name,
             "ship": self.ship,
-            "fic": self.fic
+            "fic": self.fic,
+            "image": self.image
             }
         return d
 
@@ -19,6 +21,7 @@ class Pirate:
         self.name = d["name"]
         self.ship = d["ship"]
         self.fic = d["fic"]
+        sefl.image = d["image"]
 
 class FirebaseManager:
     app = fb.FirebaseApplication("https://pirate-db-ab58b.firebaseio.com/", None)
@@ -49,8 +52,11 @@ def Canc():
     global win
     win.destroy()
 
+def browseImage():
+    x=0
+    
 def loadwindow(root):
-    global win, nText, nShip, optionString
+    global win, nText, nShip, optionString,lbImage 
     win = root
     
     # Configure the window
@@ -66,6 +72,8 @@ def loadwindow(root):
     nShip = Entry(root, font = "Arial 15", bg ="LightGreen")
     save = Button(root, font = "Arial 20", text = "Save", bg ="LightGreen", command = addNew)
     cancel = Button(root, font = "Arial 20", text = "Cancel", bg ="LightGreen", command = Canc)
+    imgSelect = Button(root, font = "Arial 20", text = "Select an Image", bg = "LightGreen", command = browseImage)
+    lbImage = Label(root, text="", font="Arial 20", bg="LightBlue")
 
     # The Grid
     title.grid(row = 0, column = 0, columnspan = 3)
@@ -74,8 +82,10 @@ def loadwindow(root):
     Fictional.grid(row = 3, column  = 0)
     nText.grid(row = 1, column = 1)
     nShip.grid(row = 2, column = 1)
-    save.grid(row = 4, column = 0)
-    cancel.grid(row = 4, column = 1)
+    save.grid(row = 5, column = 0)
+    cancel.grid(row = 5, column = 1)
+    imgSelect.grid(row=4, column = 0)
+    lbImage.grid(row=4, column=1)
 
     # The Dropdown menus 
     optionString = StringVar(root)
