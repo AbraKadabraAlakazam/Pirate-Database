@@ -1,11 +1,15 @@
 import json
 from tkinter import *
+from tkinter import filedialog
 from random import randint
 from firebase import firebase as fb
+import os
+import imageManager as im
+
 class Pirate:
     name  = ""
     ship = ""
-    fic = False
+    fic = True
     image = ""
     
     def getDict(self):
@@ -21,7 +25,7 @@ class Pirate:
         self.name = d["name"]
         self.ship = d["ship"]
         self.fic = d["fic"]
-        sefl.image = d["image"]
+        self.image = d["image"]
 
 class FirebaseManager:
     app = fb.FirebaseApplication("https://pirate-db-ab58b.firebaseio.com/", None)
@@ -31,21 +35,30 @@ class FirebaseManager:
 
 # Functions for the windows
 def addNew():
-    global win, nText, nShip, optionString
+    global win, nText, nShip, optionString, lbImage
     p = Pirate()
     p.name = nText.get()
     p.ship = nShip.get()
-    p.fictional = optionString.get()
+    p.fic = optionString.get()
+    p.image = lbImage.cget("text")
 
     nText.delete("end", 0)
     nShip.delete("end", 0)
     optionString.set("")
+    lbImage.config(text="")
+
+    imgr = im.ImageManager()
+    imgr.imagepath = win.filename # This is the full windows path
+    imgr.uploadImage()
+    p.image = imgr.url
     
     d = p.getDict()
     fm = FirebaseManager()
     idNum = randint(11111, 99999)
     fm.writeToFile(idNum, d)
-
+    
+    print(optionString)
+    
     win.destroy()
 
 def Canc():
@@ -53,7 +66,9 @@ def Canc():
     win.destroy()
 
 def browseImage():
-    x=0
+    global win, lbImage
+    win.filename = filedialog.askopenfilename()
+    lbImage.config(text = win.filename)
     
 def loadwindow(root):
     global win, nText, nShip, optionString,lbImage 

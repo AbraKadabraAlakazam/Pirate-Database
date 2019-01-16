@@ -1,7 +1,6 @@
 #Imports
 from tkinter import *
-i
-mport FirebaseManager
+import FirebaseManager
 import Pirate
 
 #Main window

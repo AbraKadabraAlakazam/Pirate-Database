@@ -16,6 +16,5 @@ class ImageManager:
         imageBlob = self.bucket.blob("images/" + self.imagepath)
         imageBlob.upload_from_filename(self.imagepath)
         d = datetime.datetime(2040, 1, 1)
-        self.url = imageBlob.generator_signed_url(d)
-
+        self.url = imageBlob.generate_signed_url(d)
 
