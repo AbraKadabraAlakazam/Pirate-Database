@@ -48,10 +48,12 @@ def addNew():
     lbImage.config(text="")
 
     imgr = im.ImageManager()
-    imgr.imagepath = win.filename # This is the full windows path
-    imgr.uploadImage()
-    p.image = imgr.url
-    
+    try:
+        imgr.imagepath = win.filename # This is the full windows path
+        imgr.uploadImage()
+        p.image = imgr.url
+    except:
+        p.image=""
     d = p.getDict()
     fm = FirebaseManager()
     idNum = randint(11111, 99999)

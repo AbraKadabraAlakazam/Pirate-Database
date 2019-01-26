@@ -2,6 +2,7 @@
 from tkinter import *
 import FirebaseManager
 import Pirate
+import imageManager
 
 #Main window
 window1 = Tk()
@@ -48,7 +49,22 @@ def display(pirateId):
         ficLabel.config(text = "This pirate is fictional!")
     else:
         ficLabel.config(text = "This pirate was/is real!")
-
+    # Display the photo
+    im = imageManager.ImageManager()
+    # Error handling in case there is no photo
+    try:
+        im.url = d[pirateId]["image"]
+    except:
+        pass
+    # If we got a photo display it, otheriwse use a placeholder
+    if im.url != "":
+        img = im.downloadUrl()
+        pirateLabel.config(image=img)
+        pirateLabel.image = img # Without this line Tkinter loses the image
+    else:
+        pirateLabel.config(image = fillerImg)
+        
+    
 def onselect(e):
     w = e.widget
     try:
